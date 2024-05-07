@@ -6,7 +6,59 @@ const c = @cImport({
 const rl = @import("raylib");
 const z = @import("zgui");
 
+const print = std.debug.print;
+
+const Game = struct {
+    name: []u8,
+    pub fn staticmethod() void {}
+    //pub fn implmethod(self: Game) void {}
+};
+
+//drawText(text: [:0]const u8, posX: i32, posY: i32, fontSize: i32, color: Color) void
+const Text2D = struct {
+    text: [:0]const u8,
+    font_size: i32,
+    x: i32,
+    y: i32,
+};
+
 pub fn main() !void {
+    //
+    //
+    //
+    //
+
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    const allocator = gpa.allocator();
+
+    //
+    //
+    //
+    //
+
+    var Text2DList = std.MultiArrayList(Text2D){};
+    defer Text2DList.deinit(allocator);
+
+    try Text2DList.ensureTotalCapacity(allocator, 1); // set limit else error!
+
+    Text2DList.appendAssumeCapacity(.{
+        .text = "test",
+        .font_size = 24,
+        .x = 10,
+        .y = 10,
+    });
+
+    for (Text2DList.items(.text), Text2DList.items(.x), Text2DList.items(.y)) |text, x, y| {
+        //print("item_index: {d}\n", .{item_index});
+        print("text: {s}\n", .{text});
+        print("text: {d} : {d}\n", .{ x, y });
+    }
+
+    //
+    //
+    //
+    //
+
     const screen_width = 1280;
     const screen_height = 600;
 
@@ -127,7 +179,20 @@ pub fn main() !void {
                 const height = screen_height - @as(i32, @intFromFloat(text_size.y)) * @as(i32, @intCast(i));
                 rl.drawText(str, width, height, font_size, rl.Color.red);
             }
+
+            for (Text2DList.items(.text), Text2DList.items(.x), Text2DList.items(.y)) |text, x, y| {
+                //print("item_index: {d}\n", .{item_index});
+                //print("text: {s}\n", .{text});
+                //print("text: {d} : {d}\n", .{ x, y });
+                rl.drawText(text, x, y, 24, rl.Color.red);
+            }
+
             rl.drawFPS(10, screen_height - 30);
+
+            //
+            //
+            //
+            //
 
             // Draw ImGui
             {

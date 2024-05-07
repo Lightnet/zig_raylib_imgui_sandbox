@@ -5,6 +5,8 @@
 
   https://discord.com/channels/605571803288698900/1210382811975122944/1210382811975122944
 
+  Note this will required internet to download raylibs files from dps from github.
+
 # Github:
 ## Zig + Raylib + ImGui
  * https://github.com/schmee/zig-raylib-imgui-template
