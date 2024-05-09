@@ -7,6 +7,10 @@
 
   Note this will required internet to download raylibs files from dps from github.
 
+  https://github.com/Not-Nik/raylib-zig/blob/devel/examples/textures/sprite_anim.zig
+
+  
+
 # Github:
 ## Zig + Raylib + ImGui
  * https://github.com/schmee/zig-raylib-imgui-template

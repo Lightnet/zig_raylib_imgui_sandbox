@@ -38,10 +38,10 @@ pub fn build(b: *std.Build) !void {
     exe.root_module.addCSourceFile(.{
         .file = rlimgui.path("rlImGui.cpp"),
         .flags = &.{
-        "-fno-sanitize=undefined",
-        "-std=c++11",
-        "-Wno-deprecated-declarations",
-        "-DNO_FONT_AWESOME",
+            "-fno-sanitize=undefined",
+            "-std=c++11",
+            "-Wno-deprecated-declarations",
+            "-DNO_FONT_AWESOME",
         },
     });
     exe.addIncludePath(rlimgui.path("."));
@@ -55,4 +55,17 @@ pub fn build(b: *std.Build) !void {
     }
     const run_step = b.step("run", "Run the app");
     run_step.dependOn(&run_cmd.step);
+
+    const exe_hello = b.addExecutable(.{
+        .name = "hello",
+        .root_source_file = .{ .path = "src/hello.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
+    b.installArtifact(exe_hello);
+    const run_hello_cmd = b.addRunArtifact(exe_hello);
+    run_hello_cmd.step.dependOn(b.getInstallStep());
+
+    const step_hello = b.step("hello", "Runs the executable");
+    step_hello.dependOn(&run_hello_cmd.step);
 }
